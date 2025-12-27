@@ -1,5 +1,4 @@
 # SRO – Shift Register Output para Arduino
-
 Abstracción de pines de salida basada en registros de desplazamiento.
 
 (Revise el archivo de licencia)
