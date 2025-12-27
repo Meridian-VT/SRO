@@ -9,6 +9,10 @@ class SRO {
     // Constructor
     SRO(uint8_t data, uint8_t clock, uint8_t latch, uint8_t NSRChain); // Aqui se proporciona el pin de datos, reloj, latch y la cantidad de registros en cascada
 
+    //Prohibimos la copia y asignacion de esta clase para evitar corrupcion de memoria y que dos instancias compartan el mismo hardware.
+    SRO(const SRO&) = delete;
+    SRO& operator=(const SRO&) = delete;
+
     // Métodos públicos
     void Clean(); //Limpia todas las salidas del registro de desplazamiento y las pone en 0 (Tambien pone los shadow register a 0)
     void WriteMem(bool LState, uint16_t pin); // Escribe los estados en el shadow register
@@ -38,3 +42,4 @@ class SRO {
 };
 
 #endif
+
