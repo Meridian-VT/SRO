@@ -1,7 +1,7 @@
 /*
  Blink
 
- Enciende un led por un segundo, para luego apagarlo en el siguiente segundo, sigiendo esto infinitamente.
+ Enciende un led por un segundno, para luego apagarlo en el siguiente segundo, sigiendo esto infinitamente.
  Esta es una especie de refrito del blink original pero adaptado para trabajar con los pines del registro de desplazamiento.
 
  Escrito el 25 de Dicimbre de 2025
