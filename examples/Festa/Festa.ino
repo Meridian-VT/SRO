@@ -31,21 +31,21 @@ void loop()
 {
 
   Nrandom = random(0,2);         //Ponemos la variable Nrandom en un valor aleatorio entre 0 y 1.
-  FestaSR.WriteMem(Nrandom,0); //Modificamos el estado del pin 0 en la memoria, poniendo un 0 o un 1 de forma aleatoria.
+  FestaSR.WriteMem(0, Nrandom); //Modificamos el estado del pin 0 en la memoria, poniendo un 0 o un 1 de forma aleatoria.
   Nrandom = random(0,2);         //Volvemos a poner la variable Nrandom en un valor aleatorio entre 0 y 1.
-  FestaSR.WriteMem(Nrandom,1); //Modificamos tambien el estado del pin 1 en la memoria, poniendo un 0 o un 1 de forma aleatoria.
+  FestaSR.WriteMem(1, Nrandom); //Modificamos tambien el estado del pin 1 en la memoria, poniendo un 0 o un 1 de forma aleatoria.
   Nrandom = random(0,2);         // Ya pillais que hace aqui.
-  FestaSR.WriteMem(Nrandom,2); //(para los programadores avanzados) ¿Que si pude usar un bucle for...? Si podia pero me daba pereza, a demas es solo un programa de ejemplo.
+  FestaSR.WriteMem(2, Nrandom); //(para los programadores avanzados) ¿Que si pude usar un bucle for...? Si podia pero me daba pereza, a demas es solo un programa de ejemplo.
   Nrandom = random(0,2);         // Ahora muchos llorareis. Waaa, waa como bebes. Todo porque hice un copy-paste del mismo par instrucciones 8 veces, en vez de usar un for.
-  FestaSR.WriteMem(Nrandom,3); //
+  FestaSR.WriteMem(3, Nrandom); //
   Nrandom = random(0,2);         //
-  FestaSR.WriteMem(Nrandom,4); //
+  FestaSR.WriteMem(4, Nrandom); //
   Nrandom = random(0,2);         //
-  FestaSR.WriteMem(Nrandom,5); //
+  FestaSR.WriteMem(5, Nrandom); //
   Nrandom = random(0,2);         //
-  FestaSR.WriteMem(Nrandom,6); //
+  FestaSR.WriteMem(6, Nrandom); //
   Nrandom = random(0,2);         //
-  FestaSR.WriteMem(Nrandom,7); //
+  FestaSR.WriteMem(7, Nrandom); //
   FestaSR.UpdateSR(); //Una vez que se modificaron todos los valores de los pines en la memoria, se actualiza el registro una sola vez con esta función, enviando toda la cadena de bits completa. Esto con el fin de acelerar la operación, porque solo se actualiza una vez y la transferencia de datos es la parte mas lenta.
   delay(100); //Aqui esperamos un poquito antes de volver a empezar.
 }
