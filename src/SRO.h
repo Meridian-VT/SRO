@@ -15,9 +15,9 @@ class SRO {
 
     // Métodos públicos
     void Clean(); //Limpia todas las salidas del registro de desplazamiento y las pone en 0 (Tambien pone los shadow register a 0)
-    void WriteMem(bool LState, uint16_t pin); // Escribe los estados en el shadow register
+    void WriteMem(uint16_t pin, bool LState); // Escribe los estados en el shadow register
     void UpdateSR(); //Actualiza el estado de las salidas con los del shadow register
-    void DigitalWrite(bool LState, uint16_t pin); //escribe en el shadow register y actualiza las salidas inmediatamente.
+    void DigitalWrite(uint16_t pin, bool LState); //escribe en el shadow register y actualiza las salidas inmediatamente.
 
     void TogglePin(uint16_t pin);   //Invierte el estado logico de un pin SOLO en el shadow register
     void ToggleRegister(uint8_t reg); //Invierte el estado logico de un registro en especifico de la cadena SOLO en el shadow register
@@ -42,4 +42,5 @@ class SRO {
 };
 
 #endif
+
 
