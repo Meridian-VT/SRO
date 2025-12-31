@@ -60,7 +60,7 @@ void SRO::Clean() {
 
 }
 
-void SRO::WriteMem(bool LState, uint16_t pin) {
+void SRO::WriteMem(uint16_t pin, bool LState) {
 
   if (pin >= (uint16_t)(_NSRChain * 8)) return; // Esta linea... comprueba que no metas un pin invalido. Si la borras, podes acabar en una posicion de memoria fuera de  _ShadowR... Y corrompes memoria
 
@@ -94,9 +94,9 @@ void SRO::UpdateSR() {
 
 }
 
-void SRO::DigitalWrite(bool LState, uint16_t pin){
+void SRO::DigitalWrite(uint16_t pin, bool LState){
 
-  WriteMem(LState, pin);
+  WriteMem(pin, LState);
   UpdateSR();
 
 }
@@ -135,3 +135,4 @@ void SRO::WriteGroup(uint8_t reg, uint8_t Value){
   _ShadowR[reg]=Value; //Escribo en la posicion que pertenece al registro elejido, en el shadow register  
 
 }
+
