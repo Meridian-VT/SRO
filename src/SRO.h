@@ -25,6 +25,11 @@ class SRO {
 
     void WriteGroup(uint8_t reg, uint8_t Value); //Permite escribir un byte completo SOLO en el shadow register
 
+    void SetTime(uint16_t Time); //Seteas el tiempo del pulso de los pines en espera
+    void PulsePin(uint16_t pin); //Con este método añades pines a la lista de espera
+    void PulseUpdate(); //Generas el pulso en todos los pines en espera.
+
+
      //Destructor de la clase 
     ~SRO();
 
@@ -33,8 +38,12 @@ class SRO {
     uint8_t _data;   //
     uint8_t _clock;  // Variables interna de la clase 
     uint8_t _latch;  //
+    
     uint8_t _NSRChain;// Cantidad de registros encadenados en cascada
     uint8_t* _ShadowR; //Puntero hacia el shadow register
+    
+    uint8_t* _PulseMask; //Puntero hacia el registro de pulsos planificados
+    uint16_t _DelayTime; //Tiempo de activo del pulso
 
     //Constantes privadas
     static const byte _bits[8];   // Aqui se almacenan las mascaras de bits
@@ -42,5 +51,3 @@ class SRO {
 };
 
 #endif
-
-
