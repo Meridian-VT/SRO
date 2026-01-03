@@ -1,4 +1,4 @@
-#include "SRO.h"
+#include <SRO.h>
 
 const byte SRO::_bits[8] = {
   0b10000000,
@@ -18,18 +18,21 @@ SRO::SRO(uint8_t data, uint8_t clock, uint8_t latch, uint8_t NSRChain) : // Uso 
 _NSRChain(NSRChain), //
 _data(data),         //
 _clock(clock),       // Inicializamos las variables privadas con un valor delos parametros a penas ejecutamos el constructor
-_latch(latch) {      //
+_latch(latch),       //
+_DelayTime(50)       // Tiempo por defecto de los pulsos
+{//
 
 if (_NSRChain == 0) _NSRChain=1; //Esta linea comprueba que no intentes inicializar con 0 registros. Si lo intentas, automaticamente te pone 1.
 
- _ShadowR = new uint8_t[_NSRChain](); //Solicitamos memoria, en este caso, suficiente para alojar un array con longitud dictaminada pòr _NSRChain
+  _ShadowR = new uint8_t[_NSRChain](); //Solicitamos memoria, en este caso, suficiente para alojar un array con longitud dictaminada pòr _NSRChain
                                       //Y nos aseguramos de que este todo en 0 al añadir esos parentesis al final
+  _PulseMask = new uint8_t[_NSRChain]();//Lo mismo para el array de planificacion de pulso
 
-pinMode(_data,OUTPUT);  //
-pinMode(_clock,OUTPUT); //Colocamos los pines que conectan el registro de desplazamiento como salidas.
-pinMode(_latch,OUTPUT); //
+  pinMode(_data,OUTPUT);  //
+  pinMode(_clock,OUTPUT); //Colocamos los pines que conectan el registro de desplazamiento como salidas.
+  pinMode(_latch,OUTPUT); //
 
-Clean(); //Ponemos todos los registros a 0 para evitar valores aleatorios
+  Clean(); //Ponemos todos los registros a 0 para evitar valores aleatorios
 
 }
 
@@ -40,7 +43,7 @@ SRO::~SRO() { //Si, puse un destructor, aunque en arduino usarlo es mas raro que
   
   delete[] _ShadowR; //Liberamos la memoria del array antes de destruir la instancia. (Notese que en el constructor pido memoria, y en el destructor la libero.
                      //Tambien, tengan en cuenta que usar memoria de esta forma dinamica es peligroso, y deben evitarla si es posible, pero aqui era necesario
-
+  delete[] _PulseMask; //Borramos tambien la memoria del planificador de pulsos
   pinMode(_data,INPUT);   //
   pinMode(_clock,INPUT);  // Liberamos los pines poniendolos en su configuracion por defecto: Como entradas.
   pinMode(_latch,INPUT);  //
@@ -136,3 +139,34 @@ void SRO::WriteGroup(uint8_t reg, uint8_t Value){
 
 }
 
+void SRO::SetTime(uint16_t Time){
+
+  _DelayTime=Time;
+
+}
+
+void SRO::PulsePin(uint16_t pin){
+
+  if (pin >= (uint16_t)(_NSRChain * 8)) return; // Esta linea vuelve a aparecer
+
+  uint8_t _regDeAcceso=(pin)/8;             //
+  uint8_t _pinDelReg=pin-8*_regDeAcceso;    // Y estas tambien
+
+  _PulseMask[_regDeAcceso] = _PulseMask[_regDeAcceso] | _bits[_pinDelReg];
+
+}
+
+void SRO::PulseUpdate(){
+
+  for (int i = 0; i < 2; i++) {
+    for(int j = 0; j < _NSRChain; j++){
+      _ShadowR[j] ^= _PulseMask[j];
+    }
+    UpdateSR();
+    if(i == 0){
+      delayMicroseconds(_DelayTime);
+    }
+  }
+  for(int j = 0; j < _NSRChain; j++) _PulseMask[j] = 0;
+
+}
